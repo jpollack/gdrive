@@ -1,15 +1,18 @@
 package drive
 
 import (
+	"encoding/json"
 	"fmt"
-	"google.golang.org/api/drive/v3"
 	"io"
+
+	"google.golang.org/api/drive/v3"
 )
 
 type FileInfoArgs struct {
 	Out         io.Writer
 	Id          string
 	SizeInBytes bool
+	JsonOutput  bool
 }
 
 func (self *Drive) Info(args FileInfoArgs) error {
@@ -29,6 +32,7 @@ func (self *Drive) Info(args FileInfoArgs) error {
 		File:        f,
 		Path:        absPath,
 		SizeInBytes: args.SizeInBytes,
+		JsonOutput:  args.JsonOutput,
 	})
 
 	return nil
@@ -39,9 +43,17 @@ type PrintFileInfoArgs struct {
 	File        *drive.File
 	Path        string
 	SizeInBytes bool
+	JsonOutput  bool
 }
 
 func PrintFileInfo(args PrintFileInfoArgs) {
+
+	if args.JsonOutput {
+		e := json.NewEncoder(args.Out)
+		e.Encode(args.File)
+		return
+	}
+
 	f := args.File
 
 	items := []kv{

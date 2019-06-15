@@ -30,6 +30,7 @@ func listHandler(ctx cli.Context) {
 		SkipHeader:  args.Bool("skipHeader"),
 		SizeInBytes: args.Bool("sizeInBytes"),
 		AbsPath:     args.Bool("absPath"),
+		JsonOutput:  args.Bool("jsonOutput"),
 	})
 	checkErr(err)
 }
@@ -189,6 +190,7 @@ func infoHandler(ctx cli.Context) {
 		Out:         os.Stdout,
 		Id:          args.String("fileId"),
 		SizeInBytes: args.Bool("sizeInBytes"),
+		JsonOutput:  args.Bool("jsonOutput"),
 	})
 	checkErr(err)
 }
