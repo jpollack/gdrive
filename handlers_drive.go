@@ -33,6 +33,7 @@ func listHandler(ctx cli.Context) {
 		SkipHeader:  args.Bool("skipHeader"),
 		SizeInBytes: args.Bool("sizeInBytes"),
 		AbsPath:     args.Bool("absPath"),
+		JsonOutput:  args.Bool("jsonOutput"),
 	})
 	checkErr(err)
 }
@@ -192,6 +193,7 @@ func infoHandler(ctx cli.Context) {
 		Out:         os.Stdout,
 		Id:          args.String("fileId"),
 		SizeInBytes: args.Bool("sizeInBytes"),
+		JsonOutput:  args.Bool("jsonOutput"),
 	}, 1)
 	checkErr(err)
 }
@@ -364,7 +366,6 @@ func getOauthClient(args cli.Arguments) (*http.Client, error) {
 		}
 	}
 
-
 	if args.String("refreshToken") != "" {
 		return auth.NewRefreshTokenClient(clientCredentials, args.String("refreshToken")), nil
 	}
@@ -410,7 +411,7 @@ func newDrive(args cli.Arguments) *drive.Drive {
 
 func authCodePrompt(url string) func() string {
 	return func() string {
-		if (usingClientCredentialsFile == true) {
+		if usingClientCredentialsFile == true {
 			fmt.Println("Client credentials loaded from file\n")
 		} else {
 			fmt.Println("Client credentials file not found. Using built-in defaults\n")
