@@ -22,6 +22,7 @@ type ExportArgs struct {
 	PrintMimes bool
 	Mime       string
 	Force      bool
+	Filename   string
 }
 
 func (self *Drive) Export(args ExportArgs, try int) error {
@@ -45,6 +46,10 @@ func (self *Drive) Export(args ExportArgs, try int) error {
 	}
 
 	filename := getExportFilename(f.Name, exportMime)
+
+	if args.Filename != "" {
+		filename = args.Filename
+	}
 
 	res, err := self.service.Files.Export(args.Id, exportMime).Download()
 	if err != nil {

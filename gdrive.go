@@ -789,6 +789,11 @@ func main() {
 			FlagGroups: cli.FlagGroups{
 				cli.NewFlagGroup("global", globalFlags...),
 				cli.NewFlagGroup("options",
+					cli.StringFlag{
+						Name:        "filename",
+						Patterns:    []string{"--filename"},
+						Description: "Output filename",
+					},
 					cli.BoolFlag{
 						Name:        "force",
 						Patterns:    []string{"-f", "--force"},

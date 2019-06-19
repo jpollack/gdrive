@@ -218,6 +218,7 @@ func exportHandler(ctx cli.Context) {
 		Mime:       args.String("mime"),
 		PrintMimes: args.Bool("printMimes"),
 		Force:      args.Bool("force"),
+		Filename:   args.String("filename"),
 	}, 1)
 	checkErr(err)
 }
