@@ -1,10 +1,12 @@
 package drive
 
 import (
+	"encoding/json"
 	"fmt"
-	"google.golang.org/api/drive/v3"
 	"io"
 	"text/tabwriter"
+
+	"google.golang.org/api/drive/v3"
 )
 
 type ListRevisionsArgs struct {
@@ -13,6 +15,7 @@ type ListRevisionsArgs struct {
 	NameWidth   int64
 	SkipHeader  bool
 	SizeInBytes bool
+	JsonOutput  bool
 }
 
 func (self *Drive) ListRevisions(args ListRevisionsArgs) (err error) {
@@ -27,6 +30,7 @@ func (self *Drive) ListRevisions(args ListRevisionsArgs) (err error) {
 		NameWidth:   int(args.NameWidth),
 		SkipHeader:  args.SkipHeader,
 		SizeInBytes: args.SizeInBytes,
+		JsonOutput:  args.JsonOutput,
 	})
 
 	return
@@ -38,9 +42,17 @@ type PrintRevisionListArgs struct {
 	NameWidth   int
 	SkipHeader  bool
 	SizeInBytes bool
+	JsonOutput  bool
 }
 
 func PrintRevisionList(args PrintRevisionListArgs) {
+
+	if args.JsonOutput {
+		e := json.NewEncoder(args.Out)
+		e.Encode(args.Revisions)
+		return
+	}
+
 	w := new(tabwriter.Writer)
 	w.Init(args.Out, 0, 0, 3, ' ', 0)
 

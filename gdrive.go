@@ -706,6 +706,12 @@ func main() {
 						Description: "Size in bytes",
 						OmitValue:   true,
 					},
+					cli.BoolFlag{
+						Name:        "jsonOutput",
+						Patterns:    []string{"--jsonOutput"},
+						Description: "Output a JSON object instead of a formatted table",
+						OmitValue:   true,
+					},
 				),
 			},
 		},
